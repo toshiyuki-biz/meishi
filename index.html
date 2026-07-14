@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Toshiyuki | Digital Card</title>
+<style>
+  :root {
+    --page-bg-1: #fff9f4;
+    --page-bg-2: #ffe9db;
+    --card-bg: #ffffff;
+    --header-top: #ffe3cf;
+    --header-bottom: #ffffff;
+    --text-main: #4a3f38;
+    --text-sub: #9a8b7c;
+    --accent: #ff9466;
+    --accent-dark: #f2703c;
+    --accent-soft: #fff0e6;
+    --chip-bg: #fff3ec;
+    --chip-border: #ffd9c2;
+    --shadow-soft:
+      0 2px 6px -2px rgba(74, 63, 53, 0.10),
+      0 12px 28px -10px rgba(74, 63, 53, 0.14),
+      0 28px 56px -20px rgba(74, 63, 53, 0.18);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+
+  body {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP",
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text-main);
+    background: linear-gradient(160deg, var(--page-bg-1) 0%, var(--page-bg-2) 100%);
+    min-height: 100dvh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 16px calc(48px + env(safe-area-inset-bottom));
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-item { opacity: 0; animation: fadeInUp 0.5s cubic-bezier(.16,1,.3,1) forwards; }
+  .d1 { animation-delay: .05s; }
+  .d2 { animation-delay: .15s; }
+  .d3 { animation-delay: .25s; }
+  .d4 { animation-delay: .35s; }
+  .d5 { animation-delay: .45s; }
+  .d6 { animation-delay: .55s; }
+  .d7 { animation-delay: .65s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-item { animation: none; opacity: 1; }
+    .link-btn, .link-btn:active { transform: none; }
+  }
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    min-width: 0;
+    border-radius: 28px;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: linear-gradient(180deg, var(--header-top) 0%, var(--header-bottom) 82%);
+    padding: 34px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    background: var(--accent-soft);
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 1px rgba(255, 148, 102, 0.25), 0 6px 16px -6px rgba(74, 63, 53, 0.35);
+    margin-bottom: 14px;
+  }
+
+  .handle {
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    color: var(--text-sub);
+    margin: 0 0 2px;
+  }
+
+  h1.name {
+    margin: 0 0 10px;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--text-main);
+  }
+
+  .role {
+    display: inline-block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--accent-dark);
+    background: var(--accent-soft);
+    border: 1px solid var(--chip-border);
+    border-radius: 999px;
+    padding: 6px 16px;
+  }
+
+  .body-content { padding: 22px 22px 26px; }
+
+  .message {
+    text-align: center;
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--text-main);
+    margin: 0 0 24px;
+  }
+
+  .section { margin-bottom: 22px; }
+
+  .section-label {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    color: var(--accent-dark);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+
+  .learning-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .learning-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-main);
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+
+  .learning-item .ico { font-size: 16px; flex-shrink: 0; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .chip {
+    font-size: 12.5px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    color: var(--text-main);
+  }
+
+  .hobby-text {
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--text-sub);
+    margin: 0;
+  }
+
+  .links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 12px;
+    border-radius: 14px;
+    background: #fffaf6;
+    border: 1px solid var(--chip-border);
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 12.8px;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .link-btn:active {
+    transform: scale(0.96);
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  .link-btn .ico { font-size: 16px; }
+
+  .link-btn.wide {
+    grid-column: 1 / -1;
+    background: linear-gradient(90deg, var(--accent-soft), #fff3ec);
+    border-color: var(--accent);
+    font-weight: 700;
+    justify-content: center;
+  }
+
+  .contact-box {
+    text-align: center;
+    padding: 16px;
+    border-radius: 16px;
+    background: var(--accent-soft);
+    border: 1px solid var(--chip-border);
+    font-size: 13px;
+    color: var(--text-main);
+  }
+
+  .contact-box .em { color: var(--accent-dark); font-weight: 800; }
+
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-sub);
+    opacity: 0.8;
+  }
+
+  @media (max-width: 360px) {
+    h1.name { font-size: 22px; }
+    .card-header { padding: 28px 18px 16px; }
+    .body-content { padding: 18px 16px 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-header">
+    <div class="avatar fade-item d1">🌱</div>
+    <p class="handle fade-item d2">@toshiyuki_biz</p>
+    <h1 class="name fade-item d2">としゆき</h1>
+    <span class="role fade-item d3">マーケター</span>
+  </div>
+
+  <div class="body-content">
+    <p class="message fade-item d3">
+      AI活用によるマーケティング業務のDXを研究中です 🌸<br>
+      お気軽にフォロー&amp;メッセージどうぞ
+    </p>
+
+    <div class="section fade-item d4">
+      <p class="section-label">Now Learning</p>
+      <div class="learning-list">
+        <div class="learning-item"><span class="ico">🤖</span>AI活用によるマーケティング業務のDX研究</div>
+        <div class="learning-item"><span class="ico">⚡</span>バイブコーディング勉強中</div>
+        <div class="learning-item"><span class="ico">📊</span>データサイエンス リスキリング中</div>
+      </div>
+    </div>
+
+    <div class="section fade-item d5">
+      <p class="section-label">Tools</p>
+      <div class="chips">
+        <span class="chip">🧠 Google AI Studio</span>
+        <span class="chip">💬 Claude</span>
+        <span class="chip">🗂️ Obsidian</span>
+        <span class="chip">⌨️ Claude Code</span>
+        <span class="chip">🛠️ Codex</span>
+      </div>
+    </div>
+
+    <div class="section fade-item d5">
+      <p class="section-label">Hobby</p>
+      <p class="hobby-text">☕ 夫婦でカフェ巡り(勉強・読書)<br>⚽ サッカー観戦<br>🎱 ビリヤード</p>
+    </div>
+
+    <div class="section fade-item d6">
+      <p class="section-label">Links</p>
+      <div class="links">
+        <a class="link-btn wide" href="https://toshiyuki-biz.studio.site/" target="_blank" rel="noopener"><span class="ico">🌐</span>ポートフォリオサイト</a>
+        <a class="link-btn" href="https://x.com/toshiyuki_biz" target="_blank" rel="noopener"><span class="ico">🐦</span>X</a>
+        <a class="link-btn" href="https://note.com/toshiyuki_biz" target="_blank" rel="noopener"><span class="ico">📝</span>note</a>
+        <a class="link-btn" href="https://www.instagram.com/toshiyuki_biz/?hl=ja" target="_blank" rel="noopener"><span class="ico">📷</span>Instagram</a>
+        <a class="link-btn" href="https://www.youtube.com/@toshiyuki_ai_lab" target="_blank" rel="noopener"><span class="ico">▶️</span>YouTube</a>
+        <a class="link-btn wide" href="https://workshop-portfolio-phi.vercel.app/#contact" target="_blank" rel="noopener"><span class="ico">⚡</span>30分で作った自己紹介ページ</a>
+      </div>
+    </div>
+
+    <div class="contact-box fade-item d7">
+      <span class="em">Contact</span> — SNSのDMまでお気軽にどうぞ 📩
+    </div>
+
+    <footer class="fade-item d7">MADE WITH AI · DIGITAL CARD</footer>
+  </div>
+</div>
+</body>
+</html>
